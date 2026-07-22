@@ -1,0 +1,8 @@
+Let's Shop
+[ 'ADIDAS ORIGINAL', 'ZARA COAT 3', 'iphone 13 pro' ]
+[
+  ' | 698828efdc40b48f12c60e1d | ',
+  ' | 698828efdc40b48f12c60e20 | ',
+  ' | 698828efdc40b48f12c60e24 | '
+]
+ | 698828efdc40b48f12c60e1d | 

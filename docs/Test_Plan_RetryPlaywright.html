@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Test Plan - RetryPlaywright Ecommerce Automation Project</title>
+  <style>
+    @page { margin: 18mm; }
+    body {
+      color: #1f2933;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      line-height: 1.45;
+      margin: 0;
+    }
+    h1 { color: #12355b; font-size: 24px; margin: 0 0 12px; }
+    h2 { border-bottom: 1px solid #c7d2da; color: #164b7a; font-size: 15px; margin: 22px 0 8px; padding-bottom: 3px; }
+    h3 { color: #1f2933; font-size: 12px; margin: 12px 0 5px; }
+    p { margin: 5px 0; }
+    ul, ol { margin: 5px 0 8px 18px; padding: 0; }
+    table { border-collapse: collapse; margin: 8px 0 12px; width: 100%; }
+    th, td { border: 1px solid #c7d2da; padding: 5px 6px; text-align: left; vertical-align: top; }
+    th { background: #edf4f8; color: #12355b; }
+    code { background: #f2f4f5; border-radius: 3px; font-family: "Courier New", monospace; padding: 1px 3px; }
+    .meta { background: #f5f8fa; border-left: 4px solid #2f80ed; margin-bottom: 16px; padding: 9px 11px; }
+  </style>
+</head>
+<body>
+  <h1>Test Plan: RetryPlaywright Ecommerce Automation Project</h1>
+  <div class="meta">
+    <p><strong>Document version:</strong> 1.0</p>
+    <p><strong>Date:</strong> July 6, 2026</p>
+    <p><strong>Project:</strong> RetryPlaywright</p>
+    <p><strong>Application under test:</strong> Rahul Shetty Academy Ecommerce Client</p>
+    <p><strong>Primary URL:</strong> https://rahulshettyacademy.com/client</p>
+  </div>
+
+  <h2>1. Objective</h2>
+  <p>This test plan defines the test approach, scope, coverage, environments, risks, and execution strategy for the RetryPlaywright automation project. The project validates ecommerce user journeys using Playwright, TypeScript Page Object Model, JavaScript tests, API utilities, screenshots, network interception tests, and Cucumber BDD assets.</p>
+
+  <h2>2. Test Scope</h2>
+  <h3>In Scope</h3>
+  <ul>
+    <li>Login authentication for registered users.</li>
+    <li>Negative login validation for unregistered users.</li>
+    <li>Product search and add-to-cart flow.</li>
+    <li>Cart product validation.</li>
+    <li>Checkout and payment details entry.</li>
+    <li>Order placement confirmation.</li>
+    <li>Order history validation.</li>
+    <li>API-assisted order placement and token-based authentication.</li>
+    <li>Network interception and request/response validation.</li>
+    <li>Screenshot and visual comparison examples.</li>
+    <li>Cross-browser execution through Playwright projects: Chromium, Firefox, and WebKit.</li>
+  </ul>
+  <h3>Out of Scope</h3>
+  <ul>
+    <li>Real payment processing.</li>
+    <li>Production account management.</li>
+    <li>Performance, load, and stress testing.</li>
+    <li>Security penetration testing beyond existing API/network examples.</li>
+    <li>Mobile device certification beyond configured Playwright viewport/device coverage.</li>
+    <li>Backend data seeding outside the available API helper utilities.</li>
+  </ul>
+
+  <h2>3. Test Items</h2>
+  <table>
+    <tr><th>Area</th><th>Files/Assets</th><th>Purpose</th></tr>
+    <tr><td>TypeScript POM tests</td><td><code>tests/ClientAppPO.spec.ts</code>, <code>tests/LoginUnregisteredUser.spec.ts</code></td><td>End-to-end UI flows using TS page objects</td></tr>
+    <tr><td>Page objects</td><td><code>pageobjects_ts/*.ts</code></td><td>Encapsulate selectors and UI actions</td></tr>
+    <tr><td>Fixtures</td><td><code>utils_ts/test-base.ts</code></td><td>Reusable test data fixture</td></tr>
+    <tr><td>Test data</td><td><code>utils_ts/ClientAppData.json</code>, <code>utils_ts/ClientAppData2.json</code></td><td>Credentials and product data</td></tr>
+    <tr><td>API utilities</td><td><code>utils_ts/APIutils.js</code>, <code>utils/APIutils.js</code></td><td>Login/token and order API helpers</td></tr>
+    <tr><td>BDD</td><td><code>features/Ecommerce.feature</code>, <code>features/step_definitions/steps.js</code></td><td>Cucumber scenario coverage</td></tr>
+    <tr><td>Config</td><td><code>playwright.config.js</code>, <code>playwright.config1.js</code></td><td>Browser projects, retries, trace, screenshot and video policy</td></tr>
+  </table>
+
+  <h2>4. Test Strategy</h2>
+  <p>The project uses Playwright for browser automation with a Page Object Model for maintainable UI tests. Tests should prioritize user-visible behavior and Playwright auto-waiting through locators and <code>expect</code> assertions. Selectors should be owned by page objects and reused by tests to avoid duplication.</p>
+  <ol>
+    <li>Smoke tests: login, product add-to-cart, checkout confirmation.</li>
+    <li>Regression tests: full ecommerce order journey across configured browsers.</li>
+    <li>Negative tests: invalid login, unregistered login, empty required fields, invalid checkout values.</li>
+    <li>API tests: token generation, order creation, and response validation.</li>
+    <li>Network tests: request interception, blocked calls, and response mocking.</li>
+  </ol>
+
+  <h2>5. Entry Criteria</h2>
+  <ul>
+    <li>Node dependencies are installed with <code>npm install</code>.</li>
+    <li>Playwright browsers are installed.</li>
+    <li>The ecommerce test site is reachable.</li>
+    <li>Valid test credentials are available in fixture or test data files.</li>
+    <li>Test data product names exist in the application catalog.</li>
+    <li>No focused tests such as <code>test.only</code> are committed.</li>
+  </ul>
+
+  <h2>6. Exit Criteria</h2>
+  <ul>
+    <li>Smoke suite passes in Chromium.</li>
+    <li>Regression suite passes in all required browser projects or defects are documented.</li>
+    <li>Critical and high severity failures are triaged.</li>
+    <li>HTML report, traces, screenshots, or videos are available for failed tests.</li>
+    <li>New tests use page objects, fixtures, and Playwright assertions.</li>
+  </ul>
+
+  <h2>7. Environment</h2>
+  <table>
+    <tr><th>Item</th><th>Value</th></tr>
+    <tr><td>Test runner</td><td>Playwright Test</td></tr>
+    <tr><td>Language</td><td>TypeScript and JavaScript</td></tr>
+    <tr><td>BDD framework</td><td>Cucumber.js</td></tr>
+    <tr><td>Browsers</td><td>Chromium, Firefox, WebKit</td></tr>
+    <tr><td>Reports</td><td>Playwright HTML report, Allure artifacts present in project</td></tr>
+    <tr><td>Default test directory</td><td><code>./tests</code></td></tr>
+    <tr><td>Default timeout</td><td>50 seconds</td></tr>
+    <tr><td>Assertion timeout</td><td>5 seconds</td></tr>
+  </table>
+
+  <h2>8. Test Data</h2>
+  <p>Primary valid user data currently appears in <code>utils_ts/test-base.ts</code> and <code>utils_ts/ClientAppData.json</code>: username <code>martin.ampah@ashesi.edu.gh</code>, password <code>French123</code>, product <code>ZARA COAT 3</code>. Sensitive credentials should eventually be moved to environment variables or a secured secrets mechanism.</p>
+
+  <h2>9. Test Coverage Matrix</h2>
+  <table>
+    <tr><th>Feature</th><th>Positive Coverage</th><th>Negative Coverage</th><th>Automation Status</th></tr>
+    <tr><td>Login</td><td>Registered user can login</td><td>Unregistered user cannot login</td><td>Partially automated</td></tr>
+    <tr><td>Product catalog</td><td>Product can be selected by name</td><td>Product unavailable case not covered</td><td>Automated for selected product</td></tr>
+    <tr><td>Cart</td><td>Product visible before checkout</td><td>Empty cart not covered</td><td>Automated</td></tr>
+    <tr><td>Checkout</td><td>Card, CVV, expiry, country, place order</td><td>Invalid payment fields not covered</td><td>Partially automated</td></tr>
+    <tr><td>Order confirmation</td><td>Thank-you message and order ID captured</td><td>Failed order not covered</td><td>Automated</td></tr>
+    <tr><td>Order history</td><td>Order ID lookup</td><td>Missing order handling not covered</td><td>Partially automated</td></tr>
+    <tr><td>API login/order</td><td>Token and order API flows</td><td>Invalid token/error response not fully covered</td><td>Partially automated</td></tr>
+    <tr><td>Network</td><td>Intercept, abort, response manipulation examples</td><td>Broader security cases not covered</td><td>Example coverage</td></tr>
+  </table>
+
+  <h2>10. Login Test Scenarios</h2>
+  <ul>
+    <li>Successful login with registered email and valid password.</li>
+    <li>Login attempt with unregistered email and valid-format password.</li>
+    <li>Login attempt with registered email and incorrect password.</li>
+    <li>Login attempt with invalid email format.</li>
+    <li>Login attempt with blank email.</li>
+    <li>Login attempt with blank password.</li>
+    <li>Login attempt with both fields blank.</li>
+    <li>Login error message is exposed as an accessible alert.</li>
+    <li>Forgot password link navigates to password recovery.</li>
+    <li>Register link navigates to registration.</li>
+  </ul>
+
+  <h2>11. Regression Test Cases</h2>
+  <table>
+    <tr><th>ID</th><th>Test Case</th><th>Expected Result</th><th>Priority</th></tr>
+    <tr><td>RP-001</td><td>Login with valid user</td><td>User lands on product dashboard</td><td>High</td></tr>
+    <tr><td>RP-002</td><td>Login with unregistered user</td><td>Error alert says <code>Incorrect email or password.</code> and user remains on login page</td><td>High</td></tr>
+    <tr><td>RP-003</td><td>Add existing product to cart</td><td>Product is added and visible in cart</td><td>High</td></tr>
+    <tr><td>RP-004</td><td>Checkout with valid details</td><td>Order is placed successfully</td><td>High</td></tr>
+    <tr><td>RP-005</td><td>Verify order in history</td><td>Order ID appears in order history/details</td><td>High</td></tr>
+    <tr><td>RP-006</td><td>API login creates token</td><td>API returns successful token response</td><td>Medium</td></tr>
+    <tr><td>RP-007</td><td>API order creation</td><td>Order is created through API helper</td><td>Medium</td></tr>
+    <tr><td>RP-008</td><td>Abort blocked network call</td><td>Blocked route does not load unwanted resource</td><td>Medium</td></tr>
+    <tr><td>RP-009</td><td>Screenshot comparison</td><td>Screenshot matches baseline</td><td>Low</td></tr>
+  </table>
+
+  <h2>12. Execution Commands</h2>
+  <table>
+    <tr><th>Command</th><th>Purpose</th></tr>
+    <tr><td><code>npm run regression</code></td><td>Run full Playwright suite</td></tr>
+    <tr><td><code>npm run webTests</code></td><td>Run tests tagged <code>@Web</code></td></tr>
+    <tr><td><code>npm run APITests</code></td><td>Run tests tagged <code>@API</code></td></tr>
+    <tr><td><code>npm run ChromiumConfig</code></td><td>Run configured Chromium project from <code>playwright.config1.js</code></td></tr>
+    <tr><td><code>npx playwright test tests/LoginUnregisteredUser.spec.ts --project=chromium</code></td><td>Run login negative test</td></tr>
+  </table>
+
+  <h2>13. Defect Management</h2>
+  <p>Each defect should include title, severity, environment, browser, reproduction steps, actual result, expected result, test data, screenshots/video/trace/network evidence, and the related test or spec file.</p>
+
+  <h2>14. Risks and Mitigations</h2>
+  <table>
+    <tr><th>Risk</th><th>Impact</th><th>Mitigation</th></tr>
+    <tr><td>External training site availability</td><td>Tests may fail due to outage or latency</td><td>Use API health checks and retry only in CI where appropriate</td></tr>
+    <tr><td>Hardcoded credentials</td><td>Data leakage and maintainability issues</td><td>Move credentials to environment variables</td></tr>
+    <tr><td>Hardcoded URL in page object</td><td>Harder environment switching</td><td>Use Playwright <code>baseURL</code></td></tr>
+    <tr><td>CSS-heavy selectors</td><td>Fragile tests after UI changes</td><td>Prefer roles, labels, placeholders, and centralized page object selectors</td></tr>
+    <tr><td>Manual waits/networkidle usage</td><td>Flaky timing</td><td>Prefer locator assertions and Playwright auto-waiting</td></tr>
+    <tr><td>Mixed JS and TS implementations</td><td>Duplicate maintenance</td><td>Consolidate primary framework direction</td></tr>
+  </table>
+
+  <h2>15. Reporting</h2>
+  <p>Playwright HTML report should be used for local debugging. For failed tests, retain traces, screenshots, and videos where configured. Allure artifacts are present in the project and can be used if the reporting workflow is maintained.</p>
+
+  <h2>16. Recommendations</h2>
+  <ul>
+    <li>Rename <code>ValidLogin</code> and <code>InvalidLogin</code> to a single <code>login</code> action and assert outcome in the test.</li>
+    <li>Move login-negative test data to a login-specific fixture.</li>
+    <li>Strengthen login error assertion to exact text.</li>
+    <li>Replace duplicated inline selectors in tests with page object methods.</li>
+    <li>Remove <code>page.pause()</code> from committed regression tests.</li>
+    <li>Avoid <code>waitForLoadState('networkidle')</code> unless no reliable UI assertion exists.</li>
+    <li>Add dedicated BDD coverage for the Login feature.</li>
+  </ul>
+</body>
+</html>
+

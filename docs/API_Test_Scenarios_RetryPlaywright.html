@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>API BDD Test Scenarios - RetryPlaywright Ecommerce Project</title>
+  <style>
+    @page { margin: 18mm; }
+    body {
+      color: #1f2933;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      line-height: 1.45;
+      margin: 0;
+    }
+    h1 { color: #12355b; font-size: 24px; margin: 0 0 12px; }
+    h2 { border-bottom: 1px solid #c7d2da; color: #164b7a; font-size: 15px; margin: 20px 0 8px; padding-bottom: 3px; }
+    p { margin: 5px 0; }
+    ul { margin: 5px 0 8px 18px; padding: 0; }
+    table { border-collapse: collapse; margin: 8px 0 12px; width: 100%; }
+    th, td { border: 1px solid #c7d2da; padding: 5px 6px; text-align: left; vertical-align: top; }
+    th { background: #edf4f8; color: #12355b; }
+    code { background: #f2f4f5; border-radius: 3px; font-family: "Courier New", monospace; padding: 1px 3px; }
+    pre {
+      background: #f7f9fb;
+      border: 1px solid #c7d2da;
+      border-radius: 5px;
+      font-family: "Courier New", monospace;
+      font-size: 10px;
+      line-height: 1.38;
+      padding: 10px;
+      white-space: pre-wrap;
+    }
+    .meta { background: #f5f8fa; border-left: 4px solid #2f80ed; margin-bottom: 16px; padding: 9px 11px; }
+  </style>
+</head>
+<body>
+  <h1>API BDD Test Scenarios: RetryPlaywright Ecommerce Project</h1>
+  <div class="meta">
+    <p><strong>Document version:</strong> 2.0</p>
+    <p><strong>Date:</strong> July 6, 2026</p>
+    <p><strong>Project:</strong> RetryPlaywright</p>
+    <p><strong>Automation file:</strong> <code>tests/APIProjectScenarios.spec.ts</code></p>
+    <p><strong>API base URL:</strong> <code>https://www.rahulshettyacademy.com/api/ecom</code></p>
+  </div>
+
+  <h2>Purpose</h2>
+  <p>This document expresses the project API test coverage as BDD scenarios. The scenarios cover ecommerce API authentication, order creation, customer order retrieval, and authorization behavior.</p>
+
+  <h2>Feature File</h2>
+  <pre>Feature: Ecommerce API validations
+  As an ecommerce platform consumer
+  I want the API to authenticate users and manage orders correctly
+  So that customer order workflows are secure and reliable
+
+  Background:
+    Given the ecommerce API base URL is "https://www.rahulshettyacademy.com/api/ecom"
+
+  @API @auth @positive @smoke
+  Scenario: Registered user logs in successfully through the API
+    Given a registered API user exists with email "martin.ampah@ashesi.edu.gh"
+    And the registered API user password is "French123"
+    When the client sends a POST request to "/auth/login" with the registered credentials
+    Then the API response should be successful
+    And the response body should contain an authentication token
+    And the response body should contain a user ID
+    And the response message should contain "Login Successfully"
+    And the token should have three dot-separated segments
+
+  @API @auth @negative
+  Scenario: Unregistered user login is rejected through the API
+    Given an unregistered API user email is "unregistered.user@example.com"
+    And the API login password is "French123"
+    When the client sends a POST request to "/auth/login" with the unregistered credentials
+    Then the API response should not be successful
+    And the response status should be 400 or higher
+    And the response body should contain an error message
+    And the response message should contain "Incorrect email or password"
+
+  @API @orders @positive
+  Scenario: Authenticated user creates an order through the API
+    Given the client has logged in through the API with valid credentials
+    And the client has a valid authentication token
+    And the order payload contains country "Ghana"
+    And the order payload contains product ordered ID "6960eae1c941646b7a8b3ed3"
+    When the client sends a POST request to "/order/create-order" with the order payload
+    Then the API response should be successful
+    And the response message should contain "Order Placed Successfully"
+    And the response body should contain exactly one order ID
+    And the returned order ID should not be empty
+
+  @API @orders @positive
+  Scenario: Authenticated user retrieves customer orders through the API
+    Given the client has logged in through the API with valid credentials
+    And the client has a valid authentication token
+    And the client has the authenticated user ID
+    When the client sends a GET request to "/order/get-orders-for-customer/{userId}"
+    Then the API response should be successful
+    And the response body should contain a "data" property
+    And the "data" property should be an array
+
+  @API @orders @security @negative
+  Scenario: Order creation is rejected when authorization token is missing
+    Given the client does not have an authentication token
+    And the order payload contains country "Ghana"
+    And the order payload contains product ordered ID "6960eae1c941646b7a8b3ed3"
+    When the client sends a POST request to "/order/create-order" with the order payload
+    Then the API response should not be successful
+    And the response status should be 400 or higher
+    And the response body should contain an error message
+    And no order should be created</pre>
+
+  <h2>Traceability Matrix</h2>
+  <table>
+    <tr><th>Scenario</th><th>Automated Test Name</th><th>File</th></tr>
+    <tr><td>Registered user logs in successfully through the API</td><td><code>should login registered user and return auth token</code></td><td><code>tests/APIProjectScenarios.spec.ts</code></td></tr>
+    <tr><td>Unregistered user login is rejected through the API</td><td><code>should reject login for unregistered user</code></td><td><code>tests/APIProjectScenarios.spec.ts</code></td></tr>
+    <tr><td>Authenticated user creates an order through the API</td><td><code>should create an order with a valid token</code></td><td><code>tests/APIProjectScenarios.spec.ts</code></td></tr>
+    <tr><td>Authenticated user retrieves customer orders through the API</td><td><code>should retrieve customer orders with a valid token</code></td><td><code>tests/APIProjectScenarios.spec.ts</code></td></tr>
+    <tr><td>Order creation is rejected when authorization token is missing</td><td><code>should reject order creation without authorization token</code></td><td><code>tests/APIProjectScenarios.spec.ts</code></td></tr>
+  </table>
+
+  <h2>Execution Command</h2>
+  <pre>npx playwright test tests/APIProjectScenarios.spec.ts --project=chromium</pre>
+
+  <h2>Current Execution Result</h2>
+  <table>
+    <tr><th>Result</th><th>Count</th></tr>
+    <tr><td>Passed</td><td>5</td></tr>
+    <tr><td>Failed</td><td>0</td></tr>
+  </table>
+
+  <h2>Future BDD API Scenarios To Add</h2>
+  <ul>
+    <li>Scenario: Order creation is rejected when product ordered ID is invalid.</li>
+    <li>Scenario: Order creation is rejected when request body is malformed.</li>
+    <li>Scenario: Order details are rejected when a user requests another customer's order.</li>
+    <li>Scenario: API rejects requests with an invalid token.</li>
+    <li>Scenario: API rejects requests with an expired token.</li>
+  </ul>
+</body>
+</html>

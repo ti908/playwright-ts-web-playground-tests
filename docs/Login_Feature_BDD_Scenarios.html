@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BDD Scenarios - Login Feature</title>
+  <style>
+    @page { margin: 18mm; }
+    body {
+      color: #1f2933;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      line-height: 1.45;
+      margin: 0;
+    }
+    h1 { color: #12355b; font-size: 24px; margin: 0 0 8px; }
+    .meta { background: #f5f8fa; border-left: 4px solid #2f80ed; margin-bottom: 16px; padding: 9px 11px; }
+    pre {
+      background: #f7f9fb;
+      border: 1px solid #c7d2da;
+      border-radius: 6px;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      line-height: 1.45;
+      padding: 14px;
+      white-space: pre-wrap;
+    }
+    .tag { color: #805ad5; }
+    .keyword { color: #164b7a; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>BDD Scenarios: Login Feature</h1>
+  <div class="meta">
+    <p><strong>Document version:</strong> 1.0</p>
+    <p><strong>Date:</strong> July 6, 2026</p>
+    <p><strong>Project:</strong> RetryPlaywright</p>
+    <p><strong>Feature scope:</strong> Login only</p>
+  </div>
+  <pre><span class="keyword">Feature:</span> Login
+  As a customer of the ecommerce platform
+  I want to authenticate with my account credentials
+  So that I can access the product dashboard and place orders
+
+  <span class="keyword">Background:</span>
+    Given the user is on the ecommerce login page
+
+  <span class="tag">@login @positive @smoke</span>
+  <span class="keyword">Scenario:</span> Registered user logs in successfully
+    When the user logs in with a registered email and valid password
+    Then the user should be redirected to the product dashboard
+    And the product catalog should be visible
+
+  <span class="tag">@login @negative</span>
+  <span class="keyword">Scenario:</span> Unregistered user cannot log in
+    When the user logs in with an unregistered email and a valid-format password
+    Then an authentication error alert should be displayed
+    And the alert message should be "Incorrect email or password."
+    And the user should remain on the login page
+
+  <span class="tag">@login @negative</span>
+  <span class="keyword">Scenario:</span> Registered user enters an incorrect password
+    When the user logs in with a registered email and an incorrect password
+    Then an authentication error alert should be displayed
+    And the user should remain on the login page
+
+  <span class="tag">@login @validation</span>
+  <span class="keyword">Scenario:</span> User submits login form with blank email
+    When the user submits the login form without entering an email
+    Then an email validation message should be displayed
+    And the login request should not be submitted
+
+  <span class="tag">@login @validation</span>
+  <span class="keyword">Scenario:</span> User submits login form with blank password
+    When the user enters a valid email
+    And the user submits the login form without entering a password
+    Then a password validation message should be displayed
+    And the login request should not be submitted
+
+  <span class="tag">@login @validation</span>
+  <span class="keyword">Scenario:</span> User submits login form with invalid email format
+    When the user enters an invalid email format
+    And the user enters a valid-format password
+    And the user submits the login form
+    Then an email format validation message should be displayed
+    And the user should remain on the login page
+
+  <span class="tag">@login @accessibility</span>
+  <span class="keyword">Scenario:</span> Login error is announced accessibly
+    When the user logs in with invalid credentials
+    Then the authentication error should be exposed as an alert
+    And assistive technology should be able to read the error message
+
+  <span class="tag">@login @navigation</span>
+  <span class="keyword">Scenario:</span> User navigates to password recovery
+    When the user selects the forgot password link
+    Then the user should be redirected to the password recovery page
+
+  <span class="tag">@login @navigation</span>
+  <span class="keyword">Scenario:</span> User navigates to registration
+    When the user selects the register link
+    Then the user should be redirected to the registration page</pre>
+</body>
+</html>
+
