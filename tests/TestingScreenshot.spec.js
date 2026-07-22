@@ -24,5 +24,5 @@ test('Visual Test', async({browser}) =>{
         const page = await context.newPage();
 
         await page.goto("http://rahulshettyacademy.com/AutomationPractice/")
-        expect(await page.screenshot()).toMatchSnapshot('landing.png')
+        await expect(page).toHaveScreenshot('landing.png');
 })
