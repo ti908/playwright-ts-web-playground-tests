@@ -47,7 +47,7 @@ const documentLink = page.locator("[href*='documents-request']");
 
 })
 
-test.only('Child Windows Handling', async ({browser}) => { //initializing the automation
+test('Child Windows Handling', async ({browser}) => { //initializing the automation
 // playwright sees the page and automatically does the browser setup for you
 const context = await browser.newContext();
 const page = await context.newPage();

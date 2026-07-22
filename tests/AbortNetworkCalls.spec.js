@@ -3,7 +3,7 @@ const { request } = require('node:http');
 
 // always add the async to the begining of the function
 // browser is a global fixture that comes automatic from playwright
-test.only('Browser context playwright test', async ({browser}) => { //initializing the automation
+test('Browser context playwright test', async ({browser}) => { //initializing the automation
 // add await to every step
 const context = await browser.newContext();
 const page = await context.newPage();
