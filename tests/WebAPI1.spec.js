@@ -21,8 +21,7 @@ test.beforeAll("Execute this once before any tests", async ()=>{
         token = loginresponseJson.token;
         console.log(token);
         console.log(token.split('.').length);
-        
-;
+        ;
 })
 
 // test.beforeEach("Execute this before any tests", async ()=>{
@@ -109,7 +108,6 @@ test("Placing the order directly", async({browser})=>{
     //          break;
     //     }
     //  }
-
     await expect(page.locator(".user__name [type*='text']").first()).toHaveText(email);
 
     await page.locator(".action__submit").click()
@@ -136,7 +134,6 @@ test("Placing the order directly", async({browser})=>{
 
     const orderIdDetails = await page.locator(".col-text").textContent()
     expect (orderId1.includes(orderIdDetails)).toBeTruthy();
-
 })
 
 
