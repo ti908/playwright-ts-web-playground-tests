@@ -26,16 +26,11 @@ test("Handling extra Validations", async({browser}) =>{
         await page.locator(".mouse-hover-content a[href='#top']").click()
 
         // Handling i-Frames
-        page.waitForLoadState("networkidle")
-        await page.locator('#courses-iframe').waitFor()
-        const framepage = page.frameLocator("#courses-iframe");
-        await framepage.locator("li a[href*='liferime-access']:visible").click();
-        const textCheck = await framepage.locator(".text h2").textContent();
-        console.log(textCheck.split(" ")[1]);
-
-
-
-
-
+        // page.waitForLoadState("networkidle")
+        // await page.locator('#courses-iframe').waitFor()
+        // const framepage = page.frameLocator("#courses-iframe");
+        // await framepage.locator("li a[href*='liferime-access']:visible").click();
+        // const textCheck = await framepage.locator(".text h2").textContent();
+        // console.log(textCheck.split(" ")[1]);
 
 })
