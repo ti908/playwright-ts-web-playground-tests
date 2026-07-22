@@ -44,9 +44,9 @@ test('Second UI test', async({browser}) =>{
     await page.locator("div li").first().waitFor();
 
     const bool1 = await page.locator("h3:has-text('ADIDAS ORIGINAL')").isVisible();
-    await expect(bool1).toBeFalsy();
+    await expect(bool1).toBeTruthy();
     const bool2 = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();
-    await expect(bool2).toBeFalsy();
+    await expect(bool2).toBeTruthy();
 
     //await page.locator("text=Checkout").click() // Finding elements by text 
     await page.getByRole("button", {name: "Checkout"}).click()
