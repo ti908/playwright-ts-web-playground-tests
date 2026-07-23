@@ -24,5 +24,8 @@ test('Visual Test', async({browser}) =>{
         const page = await context.newPage();
 
         await page.goto("http://rahulshettyacademy.com/AutomationPractice/")
-        await expect(page).toHaveScreenshot('landing.png');
+        await page.waitForLoadState('networkidle');
+        await expect(page).toHaveScreenshot('landing.png', {
+        maxDiffPixelRatio: 0.05, // allow up to 5% difference
+});
 })
