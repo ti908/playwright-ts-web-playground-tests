@@ -19,13 +19,34 @@ test("@Web Screenshot and Visual Comparisons", async({browser}) =>{
         await expect(page.locator("#displayed-text")).toBeHidden();
 })
 
-test('Visual Test', async({browser}) =>{
+// test('Visual Test for Chromium Only', async({browser}) =>{
+//         const context = await browser.newContext();
+//         const page = await context.newPage();
+
+        
+
+//         await page.goto("http://rahulshettyacademy.com/AutomationPractice/")
+//         await page.waitForLoadState('networkidle');
+//         await expect(page).toHaveScreenshot('landing.png', {
+//         maxDiffPixelRatio: 0.05, // allow up to 5% difference
+// });
+// })
+// Visual test (Chromium ONLY)
+test.describe('Visual Tests', () => {
+
+    test.skip(({ browserName }) => browserName !== 'chromium',
+        'Run visual test only on Chromium');
+
+    test('Visual Test', async ({ browser }) => {
         const context = await browser.newContext();
         const page = await context.newPage();
 
-        await page.goto("http://rahulshettyacademy.com/AutomationPractice/")
+        await page.goto("http://rahulshettyacademy.com/AutomationPractice/");
         await page.waitForLoadState('networkidle');
+
         await expect(page).toHaveScreenshot('landing.png', {
-        maxDiffPixelRatio: 0.05, // allow up to 5% difference
+            maxDiffPixelRatio: 0.05, // allow up to 5% difference
+        });
+    });
+
 });
-})
