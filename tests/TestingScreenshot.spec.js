@@ -3,9 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe.configure({ mode: 'parallel' });
 
 // Functional test (runs everywhere)
-test("@Web Screenshot and Visual Comparisons", async ({ browser }) => {
-    const context = await browser.newContext();
-    const page = await context.newPage();
+test("@Web Screenshot and Visual Comparisons", async ({ page }) => {
 
     await page.goto("http://rahulshettyacademy.com/AutomationPractice/");
 
@@ -21,22 +19,14 @@ test("@Web Screenshot and Visual Comparisons", async ({ browser }) => {
 });
 
 
-// Visual test (Chromium ONLY — CORRECT FIX)
-test.describe('Visual Tests (Chromium only)', () => {
+// Visual test (tagged)
+test('@visual Visual Test', async ({ page }) => {
 
-    // This runs BEFORE tests are executed → prevents Firefox/WebKit from running at all
-    test.skip(({ browserName }) => browserName !== 'chromium',
-        'Skipping visual tests on non-Chromium browsers');
+    await page.goto("http://rahulshettyacademy.com/AutomationPractice/");
+    await page.waitForLoadState('networkidle');
 
-    test('Visual Test', async ({ page }) => {
-
-        await page.goto("http://rahulshettyacademy.com/AutomationPractice/");
-        await page.waitForLoadState('networkidle');
-
-        await expect(page).toHaveScreenshot('landing.png', {
-            maxDiffPixelRatio: 0.05,
-        });
-
+    await expect(page).toHaveScreenshot('landing.png', {
+        maxDiffPixelRatio: 0.05,
     });
 
 });
