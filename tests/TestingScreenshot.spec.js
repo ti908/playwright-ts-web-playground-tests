@@ -1,52 +1,36 @@
-const {test, expect} = require ("@playwright/test");
+import { test, expect } from '@playwright/test';
 
-test.describe.configure({mode: 'parallel'}); // To run the tests in this test file in parallel
-test("@Web Screenshot and Visual Comparisons", async({browser}) =>{
-        const context = await browser.newContext();
-        const page = await context.newPage();
+test.describe.configure({ mode: 'parallel' });
+
+// 🔹 Functional test (runs everywhere)
+test("@Web Screenshot and Visual Comparisons", async ({ browser }) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+
+    await page.goto("http://rahulshettyacademy.com/AutomationPractice/");
+
+    await expect(page.locator("#displayed-text")).toBeVisible();
+
+    await page.locator('#displayed-text').screenshot({ path: 'textboxscreenshot.png' });
+
+    await page.locator("#hide-textbox").click();
+
+    await page.screenshot({ path: 'hiddenscreenshot.png' });
+
+    await expect(page.locator("#displayed-text")).toBeHidden();
+});
 
 
-        await page.goto("http://rahulshettyacademy.com/AutomationPractice/")
-        // await page.goto("http://google.com")
-        // await page.goBack(); // To return to the previous page
-        // await page.goForward(); // To reverse the above
+// Visual test (Chromium ONLY — FIXED)
+test('Visual Test', async ({ page, browserName }) => {
 
-        // Hidden Text
-        await expect(page.locator("#displayed-text")).toBeVisible();
-        await page.locator('#displayed-text').screenshot({path: 'textboxscreenshot.png'})
-        await page.locator("#hide-textbox").click()
-        await page.screenshot({path: 'hiddenscreenshot.png'})
-        await expect(page.locator("#displayed-text")).toBeHidden();
-})
+    // ✅ THIS is the correct placement
+    test.skip(browserName !== 'chromium', 'Visual test runs only on Chromium');
 
-// test('Visual Test for Chromium Only', async({browser}) =>{
-//         const context = await browser.newContext();
-//         const page = await context.newPage();
+    await page.goto("http://rahulshettyacademy.com/AutomationPractice/");
+    await page.waitForLoadState('networkidle');
 
-        
-
-//         await page.goto("http://rahulshettyacademy.com/AutomationPractice/")
-//         await page.waitForLoadState('networkidle');
-//         await expect(page).toHaveScreenshot('landing.png', {
-//         maxDiffPixelRatio: 0.05, // allow up to 5% difference
-// });
-// })
-// Visual test (Chromium ONLY)
-test.describe('Visual Tests', () => {
-
-    test.skip(({ browserName }) => browserName !== 'chromium',
-        'Run visual test only on Chromium');
-
-    test('Visual Test', async ({ browser }) => {
-        const context = await browser.newContext();
-        const page = await context.newPage();
-
-        await page.goto("http://rahulshettyacademy.com/AutomationPractice/");
-        await page.waitForLoadState('networkidle');
-
-        await expect(page).toHaveScreenshot('landing.png', {
-            maxDiffPixelRatio: 0.05, // allow up to 5% difference
-        });
+    await expect(page).toHaveScreenshot('landing.png', {
+        maxDiffPixelRatio: 0.05,
     });
-
 });
